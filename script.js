@@ -1,55 +1,93 @@
 // =====================================================
-// SISTEMA DE INFORMACIÓN - SCRIPT.JS
+// SISTEMA DE INFORMACIÓN
 // PARTE 1/4
 // =====================================================
 
+
 document.addEventListener("DOMContentLoaded", () => {
+
+
 
     // ===============================
     // ELEMENTOS
     // ===============================
 
-    const startScreen = document.getElementById("startScreen");
-    const bgVideo = document.getElementById("bgVideo");
-    const dataContainer = document.getElementById("dataContainer");
-    const cursor = document.getElementById("cursor");
+
+    const startScreen =
+        document.getElementById("startScreen");
+
+
+    const bgVideo =
+        document.getElementById("bgVideo");
+
+
+    const dataContainer =
+        document.getElementById("dataContainer");
+
+
+    const cursor =
+        document.getElementById("cursor");
+
+
+
 
 
     // ===============================
     // VARIABLES
     // ===============================
 
+
     let clickCount = 0;
+
     let keyPressCount = 0;
 
     let mouseX = 0;
+
     let mouseY = 0;
 
     let scanFinished = false;
 
 
 
+
+
     // ===============================
-    // MOUSE PERSONALIZADO
+    // POSICIÓN DEL MOUSE
     // ===============================
 
-    document.addEventListener("mousemove", (e) => {
 
-        mouseX = e.clientX;
-        mouseY = e.clientY;
+    document.addEventListener(
+        "mousemove",
+        (event) => {
 
 
-        if (cursor) {
+            mouseX =
+                event.clientX;
 
-            cursor.style.left =
-                mouseX + "px";
 
-            cursor.style.top =
-                mouseY + "px";
+            mouseY =
+                event.clientY;
+
+
+
+            if (cursor) {
+
+
+                cursor.style.left =
+                    mouseX + "px";
+
+
+                cursor.style.top =
+                    mouseY + "px";
+
+
+            }
+
 
         }
+    );
 
-    });
+
 
 
 
@@ -57,75 +95,117 @@ document.addEventListener("DOMContentLoaded", () => {
     // CONTADORES
     // ===============================
 
-    document.addEventListener("click", () => {
 
-        clickCount++;
+    document.addEventListener(
+        "click",
+        () => {
 
-    });
+            clickCount++;
+
+        }
+    );
 
 
-    document.addEventListener("keydown", () => {
 
-        keyPressCount++;
+    document.addEventListener(
+        "keydown",
+        () => {
 
-    });
+            keyPressCount++;
+
+        }
+    );
+
+
+
 
 
 
     // ===============================
-    // INICIO
+    // INICIO DE LA PÁGINA
     // ===============================
+
 
     if (startScreen) {
 
 
-        startScreen.addEventListener("click", async () => {
 
-
-            startScreen.style.opacity = "0";
-
-
-
-            setTimeout(async () => {
-
-
-                startScreen.style.display = "none";
+        startScreen.addEventListener(
+            "click",
+            async () => {
 
 
 
-                if (bgVideo) {
-
-                    try {
-
-                        bgVideo.muted = false;
-                        await bgVideo.play();
-
-
-                    } catch {
-
-
-                        bgVideo.muted = true;
-                        bgVideo.play();
-
-
-                    }
-
-                }
+                startScreen.style.opacity =
+                    "0";
 
 
 
-                await startDataAnimation();
+                setTimeout(
+                    async () => {
 
 
 
-            }, 600);
+                        startScreen.style.display =
+                            "none";
 
 
 
-        });
+                        if (bgVideo) {
+
+
+
+                            try {
+
+
+                                bgVideo.muted =
+                                    false;
+
+
+                                await bgVideo.play();
+
+
+
+                            } catch {
+
+
+
+                                bgVideo.muted =
+                                    true;
+
+
+                                bgVideo.play();
+
+
+                            }
+
+
+                        }
+
+
+
+
+
+                        await startDataAnimation();
+
+
+
+                    },
+                    600
+                );
+
+
+
+            }
+        );
 
 
     }
+
+
+
+
+
 
 
 
@@ -134,34 +214,48 @@ document.addEventListener("DOMContentLoaded", () => {
     // ===============================
 
 
-    async function typeLine(text, speed = 8) {
+    async function typeLine(
+        text,
+        speed = 8
+    ) {
+
 
 
         const line =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
+
 
 
         line.className =
             "terminal-line";
 
 
-        line.textContent = "";
+
+        dataContainer.appendChild(
+            line
+        );
 
 
-        dataContainer.appendChild(line);
+
+        for (
+            const char of text
+        ) {
 
 
 
-        for (const char of text) {
+            line.textContent +=
+                char;
 
-
-            line.textContent += char;
 
 
             await sleep(speed);
 
 
+
         }
+
 
 
 
@@ -169,7 +263,10 @@ document.addEventListener("DOMContentLoaded", () => {
             dataContainer.scrollHeight;
 
 
+
     }
+
+
 
 
 
@@ -178,11 +275,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         return new Promise(
-            resolve => setTimeout(resolve, ms)
+            resolve =>
+                setTimeout(
+                    resolve,
+                    ms
+                )
         );
 
 
     }
+
+
+
 
 
 
@@ -194,8 +298,10 @@ document.addEventListener("DOMContentLoaded", () => {
     function getOperatingSystem() {
 
 
+
         const ua =
             navigator.userAgent;
+
 
 
 
@@ -203,26 +309,37 @@ document.addEventListener("DOMContentLoaded", () => {
             return "Windows";
 
 
+
         if (ua.includes("Android"))
             return "Android";
+
 
 
         if (ua.includes("Mac"))
             return "macOS";
 
 
+
         if (ua.includes("Linux"))
             return "Linux";
 
 
-        if (ua.includes("iPhone"))
+
+        if (
+            ua.includes("iPhone") ||
+            ua.includes("iPad")
+        )
             return "iOS";
+
 
 
         return "Desconocido";
 
 
     }
+
+
+
 
 
 
@@ -234,8 +351,10 @@ document.addEventListener("DOMContentLoaded", () => {
     function getBrowserName() {
 
 
+
         const ua =
             navigator.userAgent;
+
 
 
 
@@ -243,16 +362,20 @@ document.addEventListener("DOMContentLoaded", () => {
             return "Microsoft Edge";
 
 
+
         if (ua.includes("Chrome"))
             return "Google Chrome";
+
 
 
         if (ua.includes("Firefox"))
             return "Mozilla Firefox";
 
 
+
         if (ua.includes("Safari"))
             return "Safari";
+
 
 
         return "Desconocido";
@@ -262,12 +385,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+
+
+
     // ===============================
-    // VERSION
+    // VERSION NAVEGADOR
     // ===============================
 
 
     function getBrowserVersion() {
+
 
 
         const ua =
@@ -276,7 +403,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         const match =
-            ua.match(/(Chrome|Firefox|Edg|Safari)\/([\d.]+)/);
+            ua.match(
+                /(Chrome|Firefox|Edg|Safari)\/([\d.]+)/
+            );
 
 
 
@@ -292,13 +421,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    // ===============================
-    // PARTE 2 CONTINÚA
-    // ===============================
+// ===============================
+// PARTE 2 CONTINÚA
+// ===============================
 
 // =====================================================
 // PARTE 2/4
-// RECOLECCIÓN DE DATOS
+// OBTENCIÓN DE DATOS
 // =====================================================
 
 
@@ -310,59 +439,81 @@ async function getSystemData() {
 
 
     // ===============================
-    // RED E IP
+    // INFORMACIÓN DE RED
     // ===============================
 
 
     try {
 
 
+
         const response =
-            await fetch("https://ipapi.co/json/");
+            await fetch(
+                "https://ipapi.co/json/"
+            );
 
 
-        const ip =
+
+        const ipData =
             await response.json();
 
 
 
+
         data["IP"] =
-            ip.ip || "No disponible";
+            ipData.ip ||
+            "No disponible";
+
 
 
         data["Ciudad"] =
-            ip.city || "No disponible";
+            ipData.city ||
+            "No disponible";
+
 
 
         data["Región"] =
-            ip.region || "No disponible";
+            ipData.region ||
+            "No disponible";
+
 
 
         data["País"] =
-            ip.country_name || "No disponible";
+            ipData.country_name ||
+            "No disponible";
 
 
-        data["ISP"] =
-            ip.org || "No disponible";
+
+        data["Proveedor de Internet"] =
+            ipData.org ||
+            "No disponible";
+
 
 
         data["Zona horaria"] =
-            ip.timezone || "No disponible";
+            ipData.timezone ||
+            "No disponible";
 
 
 
-    } catch {
+    }
+    catch {
+
 
 
         data["IP"] =
             "No disponible";
+
 
 
         data["Ubicación"] =
             "No disponible";
 
 
+
     }
+
+
 
 
 
@@ -381,8 +532,13 @@ async function getSystemData() {
         now.toLocaleTimeString();
 
 
+
     data["Fecha"] =
         now.toLocaleDateString();
+
+
+
+
 
 
 
@@ -397,7 +553,7 @@ async function getSystemData() {
 
 
 
-    data["Versión"] =
+    data["Versión del navegador"] =
         getBrowserVersion();
 
 
@@ -407,8 +563,12 @@ async function getSystemData() {
 
 
 
-    data["User Agent"] =
+    data["Agente del navegador"] =
         navigator.userAgent;
+
+
+
+
 
 
 
@@ -423,6 +583,7 @@ async function getSystemData() {
 
 
 
+
     data["Resolución"] =
         screen.width +
         " x " +
@@ -430,16 +591,22 @@ async function getSystemData() {
 
 
 
-    data["Ventana"] =
+
+    data["Tamaño ventana"] =
         window.innerWidth +
         " x " +
         window.innerHeight;
 
 
 
-    data["Color"] =
+
+
+    data["Profundidad de color"] =
         screen.colorDepth +
         " bits";
+
+
+
 
 
 
@@ -450,80 +617,106 @@ async function getSystemData() {
     // ===============================
 
 
-    data["Procesadores"] =
+    data["Núcleos del procesador"] =
         navigator.hardwareConcurrency ||
         "No disponible";
 
 
 
-    data["RAM"] =
+
+    data["RAM aproximada"] =
         navigator.deviceMemory
-        ? navigator.deviceMemory + " GB"
-        : "No disponible";
+        ?
+        navigator.deviceMemory +
+        " GB"
+        :
+        "No disponible";
+
+
+
+
 
 
 
 
 
     // ===============================
-    // GPU
+    // TARJETA GRÁFICA
     // ===============================
 
 
     try {
 
 
+
         const canvas =
-            document.createElement("canvas");
+            document.createElement(
+                "canvas"
+            );
+
 
 
         const gl =
-            canvas.getContext("webgl");
+            canvas.getContext(
+                "webgl"
+            );
 
 
 
         if (gl) {
 
 
-            const info =
+
+            const debug =
                 gl.getExtension(
                     "WEBGL_debug_renderer_info"
                 );
 
 
 
-            if (info) {
+            if (debug) {
+
 
 
                 data["GPU"] =
                     gl.getParameter(
-                        info.UNMASKED_RENDERER_WEBGL
+                        debug.UNMASKED_RENDERER_WEBGL
                     );
 
 
-            }
 
+            }
             else {
+
 
 
                 data["GPU"] =
                     "No disponible";
 
 
+
             }
+
 
 
         }
 
 
-    } catch {
+
+    }
+    catch {
+
 
 
         data["GPU"] =
             "No disponible";
 
 
+
     }
+
+
+
 
 
 
@@ -537,21 +730,47 @@ async function getSystemData() {
     if (navigator.connection) {
 
 
-        data["Conexión"] =
+
+        data["Tipo de conexión"] =
             navigator.connection.effectiveType ||
             "No disponible";
 
 
-    }
 
+        data["Velocidad"] =
+            navigator.connection.downlink
+            ?
+            navigator.connection.downlink +
+            " Mbps"
+            :
+            "No disponible";
+
+
+
+        data["Ping"] =
+            navigator.connection.rtt
+            ?
+            navigator.connection.rtt +
+            " ms"
+            :
+            "No disponible";
+
+
+
+    }
     else {
+
 
 
         data["Conexión"] =
             "No disponible";
 
 
+
     }
+
+
+
 
 
 
@@ -564,8 +783,13 @@ async function getSystemData() {
 
     data["Cookies"] =
         navigator.cookieEnabled
-        ? "Activadas"
-        : "Desactivadas";
+        ?
+        "Activadas"
+        :
+        "Desactivadas";
+
+
+
 
 
 
@@ -579,7 +803,9 @@ async function getSystemData() {
     if ("getBattery" in navigator) {
 
 
+
         try {
+
 
 
             const battery =
@@ -590,30 +816,39 @@ async function getSystemData() {
             data["Batería"] =
                 Math.round(
                     battery.level * 100
-                ) + "%";
+                )
+                + "%";
 
 
 
-        } catch {
+        }
+        catch {
+
 
 
             data["Batería"] =
                 "No disponible";
 
 
+
         }
 
 
-    }
 
+    }
     else {
+
 
 
         data["Batería"] =
             "No disponible";
 
 
+
     }
+
+
+
 
 
 
@@ -628,16 +863,20 @@ async function getSystemData() {
         mouseX;
 
 
+
     data["Mouse Y"] =
         mouseY;
+
 
 
     data["Clics"] =
         clickCount;
 
 
-    data["Teclas"] =
+
+    data["Teclas presionadas"] =
         keyPressCount;
+
 
 
 
@@ -656,17 +895,34 @@ async function getSystemData() {
 
 // =====================================================
 // PARTE 3/4
-// MOSTRAR DATOS DIRECTAMENTE
+// MOSTRAR INFORMACIÓN EN PANTALLA
 // =====================================================
 
 
 async function startDataAnimation() {
 
 
+    // Limpiar pantalla
+
     dataContainer.innerHTML = "";
 
 
-    dataContainer.style.textAlign =
+
+    // Mantener el contenedor centrado
+
+    dataContainer.style.display =
+        "flex";
+
+
+    dataContainer.style.flexDirection =
+        "column";
+
+
+    dataContainer.style.alignItems =
+        "center";
+
+
+    dataContainer.style.justifyContent =
         "center";
 
 
@@ -676,16 +932,26 @@ async function startDataAnimation() {
 
 
 
-    for (const key in data) {
+
+    // Mostrar todos los datos
+
+    for (
+        const key in data
+    ) {
+
 
 
         await typeLine(
-            key + ": " + data[key],
+            key +
+            ": " +
+            data[key],
             8
         );
 
 
+
     }
+
 
 
 
@@ -696,20 +962,28 @@ async function startDataAnimation() {
     startLiveMonitor();
 
 
+
 }
 
 
 
+
+
+
+
 // =====================================================
-// DATOS EN TIEMPO REAL
+// MONITOR EN TIEMPO REAL
 // =====================================================
 
 
 function startLiveMonitor() {
 
 
+
     const monitor =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
 
 
@@ -724,7 +998,10 @@ function startLiveMonitor() {
 
 
 
+
+
     setInterval(() => {
+
 
 
         if (!scanFinished)
@@ -732,9 +1009,11 @@ function startLiveMonitor() {
 
 
 
+
         monitor.innerHTML =
 
-            "<br>──────────────<br>" +
+
+            "──────────────<br>" +
 
             "TIEMPO REAL<br>" +
 
@@ -769,34 +1048,30 @@ function startLiveMonitor() {
 
 
 
+
+
+
+
+
 // =====================================================
-// CURSOR PARPADEANTE
+// CURSOR CON PARPADEO
 // =====================================================
 
 
 if (cursor) {
 
 
+
     setInterval(() => {
 
 
-        if (
+
+        cursor.style.opacity =
             cursor.style.opacity === "0"
-        ) {
-
-
-            cursor.style.opacity = "1";
-
-
-        }
-
-        else {
-
-
-            cursor.style.opacity = "0";
-
-
-        }
+            ?
+            "1"
+            :
+            "0";
 
 
 
@@ -805,6 +1080,11 @@ if (cursor) {
 
 
 }
+
+
+
+
+
 
 
 
@@ -818,16 +1098,19 @@ if (cursor) {
 // =====================================================
 
 
+
 // ===============================
-// COMPROBACIONES
+// COMPROBACIÓN DE ELEMENTOS
 // ===============================
 
 
 if (!dataContainer) {
 
+
     console.error(
-        "No existe el elemento dataContainer"
+        "No se encontró dataContainer"
     );
+
 
 }
 
@@ -835,9 +1118,11 @@ if (!dataContainer) {
 
 if (!startScreen) {
 
+
     console.warn(
-        "No existe el elemento startScreen"
+        "No se encontró startScreen"
     );
+
 
 }
 
@@ -845,20 +1130,26 @@ if (!startScreen) {
 
 if (!bgVideo) {
 
+
     console.warn(
-        "No existe el elemento bgVideo"
+        "No se encontró bgVideo"
     );
+
 
 }
 
 
 
+
+
+
 // ===============================
-// ACTUALIZAR HORA SI EXISTE
+// RELOJ EN TIEMPO REAL
 // ===============================
 
 
 setInterval(() => {
+
 
 
     const clock =
@@ -871,12 +1162,15 @@ setInterval(() => {
     if (clock) {
 
 
+
         clock.textContent =
             new Date()
             .toLocaleTimeString();
 
 
+
     }
+
 
 
 }, 1000);
@@ -885,8 +1179,10 @@ setInterval(() => {
 
 
 
+
+
 // ===============================
-// MENSAJE EN CONSOLA
+// MENSAJES DE CONSOLA
 // ===============================
 
 
@@ -894,14 +1190,19 @@ console.log(
     "Sistema cargado correctamente."
 );
 
+
+
 console.log(
-    "Esperando inicio del usuario..."
+    "Esperando interacción..."
 );
 
 
 
+
+
+
 // ===============================
-// CIERRE FINAL
+// CIERRE DEL SCRIPT
 // ===============================
 
 
