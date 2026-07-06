@@ -1,18 +1,19 @@
 // =====================================================
-// SISTEMA DE ANÁLISIS - SCRIPT.JS
-// PARTE 1 DE 4
+// SISTEMA DE INFORMACIÓN - SCRIPT.JS
+// PARTE 1/4
 // =====================================================
 
 document.addEventListener("DOMContentLoaded", () => {
 
     // ===============================
-    // ELEMENTOS DEL DOM
+    // ELEMENTOS
     // ===============================
 
     const startScreen = document.getElementById("startScreen");
     const bgVideo = document.getElementById("bgVideo");
     const dataContainer = document.getElementById("dataContainer");
     const cursor = document.getElementById("cursor");
+
 
     // ===============================
     // VARIABLES
@@ -26,8 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let scanFinished = false;
 
+
+
     // ===============================
-    // EVENTOS
+    // MOUSE PERSONALIZADO
     // ===============================
 
     document.addEventListener("mousemove", (e) => {
@@ -35,12 +38,24 @@ document.addEventListener("DOMContentLoaded", () => {
         mouseX = e.clientX;
         mouseY = e.clientY;
 
+
         if (cursor) {
-            cursor.style.left = mouseX + "px";
-            cursor.style.top = mouseY + "px";
+
+            cursor.style.left =
+                mouseX + "px";
+
+            cursor.style.top =
+                mouseY + "px";
+
         }
 
     });
+
+
+
+    // ===============================
+    // CONTADORES
+    // ===============================
 
     document.addEventListener("click", () => {
 
@@ -48,234 +63,307 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
+
     document.addEventListener("keydown", () => {
 
         keyPressCount++;
 
     });
 
-    // ===============================
-    // PANTALLA DE INICIO
-    // ===============================
 
-    startScreen.addEventListener("click", async () => {
-
-        startScreen.style.pointerEvents = "none";
-        startScreen.style.opacity = "0";
-
-        setTimeout(async () => {
-
-            startScreen.style.display = "none";
-
-            try {
-
-                bgVideo.muted = false;
-                await bgVideo.play();
-
-            } catch {
-
-                bgVideo.muted = true;
-                bgVideo.play();
-
-            }
-
-            await startDataAnimation();
-
-        }, 800);
-
-    });
 
     // ===============================
-    // EFECTO ESCRITURA
+    // INICIO
     // ===============================
 
-    async function typeLine(text, speed = 12) {
+    if (startScreen) {
 
-        const line = document.createElement("div");
-        line.className = "terminal-line";
+
+        startScreen.addEventListener("click", async () => {
+
+
+            startScreen.style.opacity = "0";
+
+
+
+            setTimeout(async () => {
+
+
+                startScreen.style.display = "none";
+
+
+
+                if (bgVideo) {
+
+                    try {
+
+                        bgVideo.muted = false;
+                        await bgVideo.play();
+
+
+                    } catch {
+
+
+                        bgVideo.muted = true;
+                        bgVideo.play();
+
+
+                    }
+
+                }
+
+
+
+                await startDataAnimation();
+
+
+
+            }, 600);
+
+
+
+        });
+
+
+    }
+
+
+
+    // ===============================
+    // ESCRITURA SUAVE
+    // ===============================
+
+
+    async function typeLine(text, speed = 8) {
+
+
+        const line =
+            document.createElement("div");
+
+
+        line.className =
+            "terminal-line";
+
+
+        line.textContent = "";
+
 
         dataContainer.appendChild(line);
 
+
+
         for (const char of text) {
+
 
             line.textContent += char;
 
+
             await sleep(speed);
+
 
         }
 
-        dataContainer.scrollTop = dataContainer.scrollHeight;
+
+
+        dataContainer.scrollTop =
+            dataContainer.scrollHeight;
+
 
     }
 
-    // ===============================
-    // ESPERA
-    // ===============================
+
+
 
     function sleep(ms) {
 
-        return new Promise(resolve => setTimeout(resolve, ms));
+
+        return new Promise(
+            resolve => setTimeout(resolve, ms)
+        );
+
 
     }
 
-    // ===============================
-    // BARRA DE PROGRESO
-    // ===============================
 
-    async function fakeLoading() {
-
-        const progress = document.createElement("div");
-        progress.className = "progress";
-
-        dataContainer.appendChild(progress);
-
-        for (let i = 0; i <= 100; i++) {
-
-            progress.textContent =
-                "Analizando sistema... " + i + "%";
-
-            await sleep(18);
-
-        }
-
-        progress.remove();
-
-    }
 
     // ===============================
     // SISTEMA OPERATIVO
     // ===============================
 
+
     function getOperatingSystem() {
 
-        const ua = navigator.userAgent;
+
+        const ua =
+            navigator.userAgent;
+
+
 
         if (ua.includes("Windows"))
             return "Windows";
 
+
         if (ua.includes("Android"))
             return "Android";
 
-        if (ua.includes("iPhone"))
-            return "iPhone";
-
-        if (ua.includes("iPad"))
-            return "iPadOS";
 
         if (ua.includes("Mac"))
             return "macOS";
 
+
         if (ua.includes("Linux"))
             return "Linux";
 
+
+        if (ua.includes("iPhone"))
+            return "iOS";
+
+
         return "Desconocido";
 
+
     }
+
+
 
     // ===============================
     // NAVEGADOR
     // ===============================
 
+
     function getBrowserName() {
 
-        const ua = navigator.userAgent;
+
+        const ua =
+            navigator.userAgent;
+
+
 
         if (ua.includes("Edg"))
             return "Microsoft Edge";
 
+
         if (ua.includes("Chrome"))
             return "Google Chrome";
+
 
         if (ua.includes("Firefox"))
             return "Mozilla Firefox";
 
+
         if (ua.includes("Safari"))
             return "Safari";
 
+
         return "Desconocido";
+
 
     }
 
+
+
     // ===============================
-    // VERSIÓN DEL NAVEGADOR
+    // VERSION
     // ===============================
+
 
     function getBrowserVersion() {
 
-        const ua = navigator.userAgent;
+
+        const ua =
+            navigator.userAgent;
+
+
 
         const match =
             ua.match(/(Chrome|Firefox|Edg|Safari)\/([\d.]+)/);
 
+
+
         if (match)
             return match[2];
 
+
+
         return "Desconocida";
+
 
     }
 
-    // =====================================================
-    // PARTE 2 CONTINÚA AQUÍ
-    // =====================================================
+
+
+    // ===============================
+    // PARTE 2 CONTINÚA
+    // ===============================
 
 // =====================================================
-// PARTE 2 DE 4
-// OBTENCIÓN DE DATOS DEL SISTEMA
+// PARTE 2/4
+// RECOLECCIÓN DE DATOS
 // =====================================================
 
 
 async function getSystemData() {
 
+
     const data = {};
 
 
+
     // ===============================
-    // INFORMACIÓN DE RED
+    // RED E IP
     // ===============================
 
+
     try {
+
 
         const response =
             await fetch("https://ipapi.co/json/");
 
-        const ipData =
+
+        const ip =
             await response.json();
 
 
-        data["Dirección IP"] =
-            ipData.ip || "No disponible";
+
+        data["IP"] =
+            ip.ip || "No disponible";
+
 
         data["Ciudad"] =
-            ipData.city || "No disponible";
+            ip.city || "No disponible";
+
 
         data["Región"] =
-            ipData.region || "No disponible";
+            ip.region || "No disponible";
+
 
         data["País"] =
-            ipData.country_name || "No disponible";
+            ip.country_name || "No disponible";
 
-        data["Proveedor ISP"] =
-            ipData.org || "No disponible";
+
+        data["ISP"] =
+            ip.org || "No disponible";
 
 
         data["Zona horaria"] =
-            ipData.timezone || "No disponible";
+            ip.timezone || "No disponible";
 
 
-    } catch (error) {
+
+    } catch {
 
 
-        data["Dirección IP"] =
+        data["IP"] =
             "No disponible";
 
-        data["Ciudad"] =
-            "No disponible";
 
-        data["País"] =
+        data["Ubicación"] =
             "No disponible";
 
 
     }
+
 
 
 
@@ -284,15 +372,18 @@ async function getSystemData() {
     // ===============================
 
 
-    const now = new Date();
+    const now =
+        new Date();
 
 
-    data["Hora actual"] =
+
+    data["Hora"] =
         now.toLocaleTimeString();
 
 
     data["Fecha"] =
         now.toLocaleDateString();
+
 
 
 
@@ -305,16 +396,20 @@ async function getSystemData() {
         getBrowserName();
 
 
-    data["Versión navegador"] =
+
+    data["Versión"] =
         getBrowserVersion();
+
+
+
+    data["Idioma"] =
+        navigator.language;
+
 
 
     data["User Agent"] =
         navigator.userAgent;
 
-
-    data["Idioma"] =
-        navigator.language;
 
 
 
@@ -342,9 +437,11 @@ async function getSystemData() {
 
 
 
-    data["Profundidad color"] =
+    data["Color"] =
         screen.colorDepth +
         " bits";
+
+
 
 
 
@@ -353,20 +450,23 @@ async function getSystemData() {
     // ===============================
 
 
-    data["Núcleos CPU"] =
+    data["Procesadores"] =
         navigator.hardwareConcurrency ||
         "No disponible";
 
 
-    data["Memoria RAM"] =
-        navigator.deviceMemory ?
-        navigator.deviceMemory + " GB" :
-        "No disponible";
+
+    data["RAM"] =
+        navigator.deviceMemory
+        ? navigator.deviceMemory + " GB"
+        : "No disponible";
+
+
 
 
 
     // ===============================
-    // GPU MEDIANTE WEBGL
+    // GPU
     // ===============================
 
 
@@ -381,6 +481,7 @@ async function getSystemData() {
             canvas.getContext("webgl");
 
 
+
         if (gl) {
 
 
@@ -390,19 +491,22 @@ async function getSystemData() {
                 );
 
 
+
             if (info) {
 
 
-                data["Tarjeta gráfica"] =
+                data["GPU"] =
                     gl.getParameter(
                         info.UNMASKED_RENDERER_WEBGL
                     );
 
 
-            } else {
+            }
+
+            else {
 
 
-                data["Tarjeta gráfica"] =
+                data["GPU"] =
                     "No disponible";
 
 
@@ -415,11 +519,13 @@ async function getSystemData() {
     } catch {
 
 
-        data["Tarjeta gráfica"] =
+        data["GPU"] =
             "No disponible";
 
 
     }
+
+
 
 
 
@@ -431,31 +537,23 @@ async function getSystemData() {
     if (navigator.connection) {
 
 
-        data["Tipo conexión"] =
+        data["Conexión"] =
             navigator.connection.effectiveType ||
             "No disponible";
 
 
-        data["Velocidad"] =
-            navigator.connection.downlink ?
-            navigator.connection.downlink + " Mbps" :
-            "No disponible";
+    }
 
-
-        data["Ping"] =
-            navigator.connection.rtt ?
-            navigator.connection.rtt + " ms" :
-            "No disponible";
-
-
-    } else {
+    else {
 
 
         data["Conexión"] =
-            "Información no disponible";
+            "No disponible";
 
 
     }
+
+
 
 
 
@@ -465,9 +563,11 @@ async function getSystemData() {
 
 
     data["Cookies"] =
-        navigator.cookieEnabled ?
-        "Activadas" :
-        "Desactivadas";
+        navigator.cookieEnabled
+        ? "Activadas"
+        : "Desactivadas";
+
+
 
 
 
@@ -486,10 +586,12 @@ async function getSystemData() {
                 await navigator.getBattery();
 
 
+
             data["Batería"] =
                 Math.round(
                     battery.level * 100
                 ) + "%";
+
 
 
         } catch {
@@ -502,7 +604,9 @@ async function getSystemData() {
         }
 
 
-    } else {
+    }
+
+    else {
 
 
         data["Batería"] =
@@ -513,8 +617,10 @@ async function getSystemData() {
 
 
 
+
+
     // ===============================
-    // DATOS DE INTERACCIÓN
+    // INTERACCIÓN
     // ===============================
 
 
@@ -526,29 +632,31 @@ async function getSystemData() {
         mouseY;
 
 
-    data["Clics realizados"] =
+    data["Clics"] =
         clickCount;
 
 
-    data["Teclas presionadas"] =
+    data["Teclas"] =
         keyPressCount;
+
 
 
 
     return data;
 
 
+
 }
 
 
 
-// =====================================================
-// PARTE 3 CONTINÚA AQUÍ
-// =====================================================
+// ===============================
+// PARTE 3 CONTINÚA
+// ===============================
 
 // =====================================================
-// PARTE 3 DE 4
-// ANIMACIÓN Y PRESENTACIÓN DE DATOS
+// PARTE 3/4
+// MOSTRAR DATOS DIRECTAMENTE
 // =====================================================
 
 
@@ -558,79 +666,26 @@ async function startDataAnimation() {
     dataContainer.innerHTML = "";
 
 
-    await typeLine(
-        "> Iniciando análisis del sistema...",
-        12
-    );
-
-
-    await sleep(300);
-
-
-    await fakeLoading();
-
-
-    await sleep(300);
+    dataContainer.style.textAlign =
+        "center";
 
 
 
-    await typeLine(
-        "> Recopilando información...",
-        12
-    );
-
-
-    await sleep(500);
-
-
-
-    const systemData =
+    const data =
         await getSystemData();
 
 
 
-    await typeLine(
-        "> Información encontrada:",
-        12
-    );
-
-
-    await sleep(200);
-
-
-
-    // ===============================
-    // MOSTRAR DATOS
-    // ===============================
-
-
-    for (const key in systemData) {
+    for (const key in data) {
 
 
         await typeLine(
-            "✔ " +
-            key +
-            ": " +
-            systemData[key],
-            10
+            key + ": " + data[key],
+            8
         );
 
 
-        await sleep(30);
-
-
     }
-
-
-
-    await sleep(500);
-
-
-
-    await typeLine(
-        "> Análisis completado correctamente.",
-        12
-    );
 
 
 
@@ -641,13 +696,12 @@ async function startDataAnimation() {
     startLiveMonitor();
 
 
-
 }
 
 
 
 // =====================================================
-// MONITOR EN TIEMPO REAL
+// DATOS EN TIEMPO REAL
 // =====================================================
 
 
@@ -658,8 +712,10 @@ function startLiveMonitor() {
         document.createElement("div");
 
 
+
     monitor.className =
         "live-monitor";
+
 
 
     dataContainer.appendChild(
@@ -676,29 +732,28 @@ function startLiveMonitor() {
 
 
 
-        const now =
-            new Date();
-
-
-
         monitor.innerHTML =
 
-            "──────────────<br>" +
+            "<br>──────────────<br>" +
 
-            "MONITOR EN VIVO<br>" +
+            "TIEMPO REAL<br>" +
 
             "Hora: " +
-            now.toLocaleTimeString() +
+            new Date()
+            .toLocaleTimeString() +
+
             "<br>" +
 
             "Mouse: " +
             mouseX +
             " , " +
             mouseY +
+
             "<br>" +
 
             "Clics: " +
             clickCount +
+
             "<br>" +
 
             "Teclas: " +
@@ -715,7 +770,7 @@ function startLiveMonitor() {
 
 
 // =====================================================
-// EFECTO DE PARPADEO DEL CURSOR
+// CURSOR PARPADEANTE
 // =====================================================
 
 
@@ -725,56 +780,73 @@ if (cursor) {
     setInterval(() => {
 
 
-        cursor.style.opacity =
+        if (
             cursor.style.opacity === "0"
-            ? "1"
-            : "0";
+        ) {
+
+
+            cursor.style.opacity = "1";
+
+
+        }
+
+        else {
+
+
+            cursor.style.opacity = "0";
+
+
+        }
+
 
 
     }, 500);
 
 
+
 }
 
 
 
-// =====================================================
-// PARTE 4 CONTINÚA AQUÍ
-// =====================================================
+// ===============================
+// PARTE 4 CONTINÚA
+// ===============================
 
 // =====================================================
-// PARTE 4 DE 4
-// FINAL Y PROTECCIONES
+// PARTE 4/4
+// FINAL DEL SCRIPT
 // =====================================================
 
 
 // ===============================
-// PROTECCIÓN DE ELEMENTOS
+// COMPROBACIONES
 // ===============================
+
+
+if (!dataContainer) {
+
+    console.error(
+        "No existe el elemento dataContainer"
+    );
+
+}
+
 
 
 if (!startScreen) {
 
     console.warn(
-        "No se encontró startScreen"
+        "No existe el elemento startScreen"
     );
 
 }
+
 
 
 if (!bgVideo) {
 
     console.warn(
-        "No se encontró bgVideo"
-    );
-
-}
-
-
-if (!dataContainer) {
-
-    console.warn(
-        "No se encontró dataContainer"
+        "No existe el elemento bgVideo"
     );
 
 }
@@ -782,23 +854,24 @@ if (!dataContainer) {
 
 
 // ===============================
-// ACTUALIZAR HORA DEL SISTEMA
+// ACTUALIZAR HORA SI EXISTE
 // ===============================
 
 
 setInterval(() => {
 
 
-    const timeElement =
+    const clock =
         document.getElementById(
             "systemTime"
         );
 
 
-    if (timeElement) {
+
+    if (clock) {
 
 
-        timeElement.textContent =
+        clock.textContent =
             new Date()
             .toLocaleTimeString();
 
@@ -810,26 +883,26 @@ setInterval(() => {
 
 
 
+
+
 // ===============================
-// MENSAJE INICIAL EN CONSOLA
+// MENSAJE EN CONSOLA
 // ===============================
 
 
 console.log(
-    "%cSistema iniciado correctamente.",
-    "color:#00ff00;font-size:14px;"
+    "Sistema cargado correctamente."
 );
-
-
 
 console.log(
-    "Esperando interacción del usuario..."
+    "Esperando inicio del usuario..."
 );
 
 
 
 // ===============================
-// CIERRE DEL DOMCONTENTLOADED
+// CIERRE FINAL
 // ===============================
+
 
 });
