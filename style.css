@@ -1,4 +1,7 @@
-/* Estilos generales */
+/* ===========================
+   ESTILOS GENERALES
+=========================== */
+
 * {
     margin: 0;
     padding: 0;
@@ -12,56 +15,128 @@ body {
     background-color: black;
 }
 
-/* Pantalla de inicio */
+
+/* ===========================
+   PANTALLA DE INICIO
+=========================== */
+
 #startScreen {
     position: fixed;
     top: 0;
     left: 0;
+
     width: 100%;
     height: 100%;
+
     background-color: black;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     z-index: 1000;
+
     transition: opacity 1s ease-out;
 }
+
 
 #startText {
     font-size: 24px;
     animation: blink 1.5s infinite;
 }
 
-/* Animación de parpadeo */
+
+/* ===========================
+   ANIMACIÓN
+=========================== */
+
 @keyframes blink {
-    0% { opacity: 1; }
-    50% { opacity: 0; }
-    100% { opacity: 1; }
+
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
 }
 
-/* Video de fondo */
+
+/* ===========================
+   VIDEO DE FONDO
+=========================== */
+
 #bgVideo {
     position: fixed;
+
     top: 0;
     left: 0;
+
     width: 100%;
     height: 100%;
+
     object-fit: cover;
+
     z-index: -1;
 }
 
-/* Contenedor de datos */
+/* ===========================
+   CONTENEDOR DE DATOS
+=========================== */
+
 #dataContainer {
-    position: absolute;
-    top: 20px;
-    left: 20px;
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 90%;
+    max-height: 80vh;
+
+    overflow-y: auto;
+
+    text-align: center;
+
     font-size: 32px;
     line-height: 1.5;
-    white-space: pre;
+
     z-index: 1;
 }
 
-/* Cursor parpadeante */
+
+/* ===========================
+   LÍNEAS DE TEXTO
+=========================== */
+
+.terminal-line {
+    width: 100%;
+    margin: 6px 0;
+    text-align: center;
+}
+
+
+/* ===========================
+   MONITOR EN VIVO
+=========================== */
+
+.live-monitor {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+/* ===========================
+   CURSOR
+=========================== */
+
 #cursor {
     display: inline-block;
     animation: blink 1s infinite;
