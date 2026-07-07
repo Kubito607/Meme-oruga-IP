@@ -90,12 +90,13 @@ body {
 =========================== */
 
 #dataContainer {
-    position: fixed;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
 
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%);
+#dataContainer::-webkit-scrollbar {
+    display: none;
+}
 
     width: 90%;
     max-height: 80vh;
